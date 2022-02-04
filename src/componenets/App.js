@@ -2,6 +2,7 @@
 import Navbar from './Navbar';
 import MovieCard from './MovieCard';
 import React from 'react';
+import {addMovies} from '../actions'
 class App extends React.Component {
   componentDidMount() {
     
@@ -13,10 +14,16 @@ class App extends React.Component {
       this.forceUpdate()
     });
 
-    store.dispatch({
-      type:'ADD_MOVIES',
-      movies:data
-    });
+     store.dispatch(
+      // making dynamic i.e dispatching the actions in the actions 
+      addMovies(data)
+       
+      //{
+    //   type:'ADD_MOVIES',
+    //   movies:data
+    // }
+    // creating dynamic function
+    );
     console.log('STATE',this.props.store.getState())
     // FLOW 
     //1.store.dispatch({})
