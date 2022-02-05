@@ -24,7 +24,7 @@ class App extends React.Component {
     // }
     // creating dynamic function
     );
-    console.log('STATE',this.props.store.getState())
+    console.log('STATE',this.props.store.getState())// now the  state will be 
     // FLOW 
     //1.store.dispatch({})
     //2.THEN SUBSCRPTION IS CALLED  store.subscribe(()=>{})
@@ -37,8 +37,10 @@ class App extends React.Component {
     console.log('RENDER')
     //1.RENDER WILL EXECUTE as soon as the componenet 
 
-  const movies = this.props.store.getState();
-  console.log('Moviess==>',movies)
+  // 0const movies = this.props.store.getState();
+  const {list} = this.props.store.getState();
+  
+  console.log('Moviess==>',list)
   console.log('daya\ is',this.props)
   return (
     <div className="App">
@@ -50,7 +52,7 @@ class App extends React.Component {
                       <div className="tab">Favourites</div>
                   </div>
                   <div className="list">
-                    {movies.map((movie,index)=>( // awways remenber here we need to have () bracket as we are passing arrow function not {} other wise you will get error
+                    {list.map((movie,index)=>( // awways remenber here we need to have () bracket as we are passing arrow function not {} other wise you will get error
                      <MovieCard  movie = {movie} key={`movies-${index}`} />
                     ))}
                   </div>
