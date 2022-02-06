@@ -3,6 +3,7 @@
 // and here our for same input we should have smar output
 // here state is current state and if it is undefined then we need to make it as empty array as our global state will be a list of movies
 import {ADD_MOVIES,ADD_TO_FAVOURITE,REMOVE_FROM_FAVOURITE,SET_SHOW_FAVOURITE} from '../actions';
+import { combineReducers } from 'redux';
 const initialStateMovieState = {
     list:[],
     favourites:[],
@@ -68,6 +69,7 @@ search:initialSearchState // this is refer to const initialSearchState = {}
 // here we are creating root state wichi contain both movie and search 
 // and here we will be passing this root reduces to our index.js file
 // and this will call every time we call every time we dispatch an action
+/*
 export default function rootReducer(state = initialRootState,action){
    return{
     movies:movies(state.movies,action), // refering to movie function  // here we are telling movies will be manage by movie rederer
@@ -75,6 +77,16 @@ export default function rootReducer(state = initialRootState,action){
     // and in fy=uture we can add multiple reducers
 }
 }
+*/
+// we can overcome the above method rootReducer(state = initialRootState,action){} by using combine reducer
+// here in combinereduceer we just need to call the function name instead of passing movies(state.movies,action) as combine reducer will handle it internally
+
+export default combineReducers({
+    // movies:movies,
+    // search:search // it is the nameof the search function function
+    movies,
+    search
+})
 //Example of state
 // var o = {a:1,b:2,c:3}
 // concept of a var o2 = {...o,b:100}
