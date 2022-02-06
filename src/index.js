@@ -4,10 +4,13 @@ import { createStore } from 'redux';
 
 import './index.css';
 import App from './componenets/App';
-import movies from './reducers';
+// import movies from './reducers';
+import rootReducer from './reducers';
+
 // creatig the store
-const store=createStore(movies); // this expect and argument i.e reducer
-console.log('Store',store)
+// const store=createStore(movies); // this expect and argument i.e reducer
+const store=createStore(rootReducer); // this expect and argument i.e rootReducer
+console.log('Store is',store)
 // console.log('BEFORE Store STATE',store.getState())
 // store.dispatch({
 //   type:'ADD_MOVIES',
