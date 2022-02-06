@@ -2,10 +2,11 @@
 // and here our function should be pure function
 // and here our for same input we should have smar output
 // here state is current state and if it is undefined then we need to make it as empty array as our global state will be a list of movies
-import {ADD_MOVIES,ADD_TO_FAVOURITE,REMOVE_FROM_FAVOURITE} from '../actions';
+import {ADD_MOVIES,ADD_TO_FAVOURITE,REMOVE_FROM_FAVOURITE,SET_SHOW_FAVOURITE} from '../actions';
 const initialStateMovieState = {
     list:[],
-    favourites:[]
+    favourites:[],
+    setShowFavourites:false
 }
 // creating reducer for movue
 // export default function movies(state=initialStateMovieState,action){
@@ -41,7 +42,11 @@ export  function movies(state=initialStateMovieState,action){
                 ...state,
                 favourites:filterArray
             };
-    
+        case SET_SHOW_FAVOURITE:
+            return{
+                ...state,
+                setShowFavourites:action.val
+            }
         default:
             return state
         }

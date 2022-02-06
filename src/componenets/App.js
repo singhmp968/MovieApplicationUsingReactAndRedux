@@ -2,8 +2,9 @@
 import Navbar from './Navbar';
 import MovieCard from './MovieCard';
 import React from 'react';
-import {addMovies} from '../actions'
+import {addMovies,setShowFavourite} from '../actions'
 class App extends React.Component {
+  // here we are calling the calling/****vvvvvv Important in the ***&&&%%%###$$$onChangeTab***&&&%%%###$$$ and then we are passing the vallue */
   componentDidMount() {
     
     // WHEN WE DISPATCH ACTION IMMEDITELY after this call back is called
@@ -32,6 +33,10 @@ class App extends React.Component {
     
   
   }
+  // on changeTab
+  onChangeTab=(val)=>{
+    this.props.store.dispatch(setShowFavourite(val))
+  }
   isMovieFavoirite =(movie)=>{
     const {movies} = this.props.store.getState();
     const {favourites} = movies;
@@ -52,18 +57,22 @@ class App extends React.Component {
   const {movies} = this.props.store.getState(); // {movies:{},search:{}}
   console.log('Moviess==>',movies)
   console.log('daya\ is',this.props.store.getState());
-  const {list,favourites} = movies
+  const {list,favourites,setShowFavourites} = movies
+  const displayMovies = setShowFavourites?favourites:list
   return (
     <div className="App">
         <Navbar />
         <div className="main">
             <div className="main">
                   <div className="tabs">
-                      <div className="tab">Movies</div>
-                      <div className="tab">Favourites</div>
+                    {/* vvvi o how to pass the value inthe required functuon  */}
+                      <div className={`tab ${setShowFavourites?'':'active-tabs'}`} onClick={()=>this.onChangeTab(false)}>Movies</div>
+                      <div className={`tab ${setShowFavourites?'active-tabs':''}`} onClick={()=> this.onChangeTab(true)}>Favourites</div>
+                    {/* vvvi o how to pass the value inthe required functuon  */}
+
                   </div>
                   <div className="list">
-                    {list.map((movie,index)=>( // awways remenber here we need to have () bracket as we are passing arrow function not {} other wise you will get error
+                    {displayMovies.map((movie,index)=>( // awways remenber here we need to have () bracket as we are passing arrow function not {} other wise you will get error
                      <MovieCard  movie = {movie}
                       key={`movies-${index}`}
                       dispatch = {this.props.store.dispatch}
@@ -71,6 +80,7 @@ class App extends React.Component {
                       />
                     ))}
                   </div>
+                  {displayMovies.length===0?<div className='no-movies'></div>}
             </div>
         </div>
     </div>
