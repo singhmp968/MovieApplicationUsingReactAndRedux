@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import { createStore,applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -45,6 +45,10 @@ const logger=({dispatch,getState})=>(next)=>(action)=>{
 //TODO:need to ask
 const store=createStore(rootReducer,applyMiddleware(logger,thunk)); // this expect and argument i.e rootReducer
 console.log('Store is',store)
+// creating reactContext to pass the store from index.js to other componeent
+export const StoreContext = createContext();
+console.log('StoreContext',StoreContext);
+
 // console.log('BEFORE Store STATE',store.getState())
 // store.dispatch({
 //   type:'ADD_MOVIES',
@@ -54,7 +58,10 @@ console.log('Store is',store)
 {/* <App store={store} /> passing store in the app */}
 ReactDOM.render(
   <React.StrictMode>
+<StoreContext.Provider value={store}>
+  {/* here we are wrpping our app componenet to storeXontext so that we can  the store object or the object that we wish to pass will be available to all app as well as it child components and we can use it by using consumer and we can use it at any level like 10 11 level*/}
     <App store={store} />
+</StoreContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
