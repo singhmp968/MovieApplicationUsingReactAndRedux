@@ -1,3 +1,4 @@
+import { type } from "@testing-library/user-event/dist/type";
 
 // this variables are called ===>actions types
 export const ADD_MOVIES = 'ADD_MOVIES';
@@ -5,6 +6,7 @@ export const ADD_MOVIES = 'ADD_MOVIES';
 export const ADD_TO_FAVOURITE = 'ADD_TO_FAVOURITE';
 export const REMOVE_FROM_FAVOURITE = 'REMOVE_FROM_FAVOURITE';
 export const SET_SHOW_FAVOURITE = 'SET_SHOW_FAVOURITE';
+export const ADD_SEARCH_RESULT='ADD_SEARCH_RESULT';
 export function addMovies(movies){
     return {
         type:ADD_MOVIES,
@@ -46,7 +48,13 @@ return function(dispatch){
     .then(movie=>{
         console.log('movie is',movie)
         // dispatch and action 
-        // dispatch({type:'ADD_SEARCH_RESULT',movie }) 
+        dispatch(addMovieSearchResult(movie))
     })
 }
+}
+
+export function addMovieSearchResult(movie){
+   return{
+    type:ADD_SEARCH_RESULT,
+    movie}
 }

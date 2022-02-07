@@ -2,7 +2,7 @@
 // and here our function should be pure function
 // and here our for same input we should have smar output
 // here state is current state and if it is undefined then we need to make it as empty array as our global state will be a list of movies
-import {ADD_MOVIES,ADD_TO_FAVOURITE,REMOVE_FROM_FAVOURITE,SET_SHOW_FAVOURITE} from '../actions';
+import {ADD_MOVIES,ADD_TO_FAVOURITE,REMOVE_FROM_FAVOURITE,SET_SHOW_FAVOURITE,ADD_SEARCH_RESULT} from '../actions';
 import { combineReducers } from 'redux';
 const initialStateMovieState = {
     list:[],
@@ -60,7 +60,15 @@ const initialSearchState = {
 export function search(state =initialSearchState,action){
     console.log('SEARCH REDUCER')
   
-    return state
+    switch(action.type){
+        case ADD_SEARCH_RESULT:
+            return{
+               ...state,
+               result:action.movie
+            }
+        default:
+            return state
+        }
 }
 const initialRootState = {
 movies:initialStateMovieState, // this is refer to const initialStateMovieState = {}

@@ -22,6 +22,8 @@ class Navbar extends Component {
         })
     }
 render() {
+    const { result } = this.props.search;
+    console.log('search result is',result)
 return (
     <div className='nav'>
     <div className='search-container'>

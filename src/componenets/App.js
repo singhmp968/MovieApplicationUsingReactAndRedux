@@ -54,14 +54,14 @@ class App extends React.Component {
     //1.RENDER WILL EXECUTE as soon as the componenet 
 
   // 0const movies = this.props.store.getState();
-  const {movies} = this.props.store.getState(); // {movies:{},search:{}}
+  const {movies,search} = this.props.store.getState(); // {movies:{},search:{}}
   console.log('Moviess==>',movies)
   console.log('daya\ is',this.props.store.getState());
   const {list,favourites,setShowFavourites} = movies
   const displayMovies = setShowFavourites?favourites:list
   return (
     <div className="App">
-        <Navbar  dispatch = {this.props.store.dispatch} />
+        <Navbar  dispatch = {this.props.store.dispatch} search={search} />
         <div className="main">
             <div className="main">
                   <div className="tabs">
