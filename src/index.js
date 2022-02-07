@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore,applyMiddleware } from 'redux';
-
+import thunk from 'redux-thunk';
 import './index.css';
 import App from './componenets/App';
 // import movies from './reducers';
@@ -22,18 +22,24 @@ import rootReducer from './reducers';
 */
 //2nd way modified the above  logger funcction
 const logger=({dispatch,getState})=>(next)=>(action)=>{
+    // console.log('ACTION.TYPE=',action.type);
+    // need to finx as now we are fetiing function also it will be undefined 
+    if(typeof action!=='function'){
     console.log('ACTION.TYPE=',action.type);
+    }
     next(action); // need to passs action to our ***dispatch*** function
 // and here will call dispatch 
 }
 // creating thunk middlewware here
-const thunk = ({dispatch,getState})=>(next)=>(action)=>{
+/*const thunk = ({dispatch,getState})=>(next)=>(action)=>{
   if(typeof action==='function'){
     action(dispatch);
     return
   }
   next(action)
 }
+*/
+
 // creatig the store
 // const store=createStore(movies); // this expect and argument i.e reducer
 //TODO:need to ask
