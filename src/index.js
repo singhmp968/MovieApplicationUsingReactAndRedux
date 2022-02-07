@@ -9,7 +9,7 @@ import rootReducer from './reducers';
 
  // we are creating this middleware to console.log the action type 
 // we are amking this function as curried functions of function logger(obj,next,action)
-const logger = function({dispatch,getState}){
+/*const logger = function({dispatch,getState}){
   // obj will contain 2 argument 1.dispatct and 2.action as property an dredux will automatically pass this 2 argumenrs in the logger function
   return function(next){
     return function(action){
@@ -19,11 +19,25 @@ const logger = function({dispatch,getState}){
     }
   }
 }
-
+*/
+//2nd way modified the above  logger funcction
+const logger=({dispatch,getState})=>(next)=>(action)=>{
+    console.log('ACTION.TYPE=',action.type);
+    next(action); // need to passs action to our ***dispatch*** function
+// and here will call dispatch 
+}
+// creating thunk middlewware here
+const thunk = ({dispatch,getState})=>(next)=>(action)=>{
+  if(typeof action==='function'){
+    action(dispatch);
+    return
+  }
+  next(action)
+}
 // creatig the store
 // const store=createStore(movies); // this expect and argument i.e reducer
 //TODO:need to ask
-const store=createStore(rootReducer,applyMiddleware(logger)); // this expect and argument i.e rootReducer
+const store=createStore(rootReducer,applyMiddleware(logger,thunk)); // this expect and argument i.e rootReducer
 console.log('Store is',store)
 // console.log('BEFORE Store STATE',store.getState())
 // store.dispatch({
@@ -39,3 +53,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+
+// // VVI concept using in the above to modify in the logger function
+// var f=()=>()=>{return 1};
+// f()()
