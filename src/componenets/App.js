@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import MovieCard from './MovieCard';
 import React from 'react';
 import {addMovies,setShowFavourite} from '../actions'
+import {StoreContext} from '../index'
 class App extends React.Component {
   // here we are calling the calling/****vvvvvv Important in the ***&&&%%%###$$$onChangeTab***&&&%%%###$$$ and then we are passing the vallue */
   componentDidMount() {
@@ -59,32 +60,45 @@ class App extends React.Component {
   console.log('daya\ is',this.props.store.getState());
   const {list,favourites,setShowFavourites} = movies
   const displayMovies = setShowFavourites?favourites:list
-  return (
-    <div className="App">
-        <Navbar  dispatch = {this.props.store.dispatch} search={search} />
-        <div className="main">
-            <div className="main">
-                  <div className="tabs">
-                    {/* vvvi o how to pass the value inthe required functuon  */}
-                      <div className={`tab ${setShowFavourites?'':'active-tabs'}`} onClick={()=>this.onChangeTab(false)}>Movies</div>
-                      <div className={`tab ${setShowFavourites?'active-tabs':''}`} onClick={()=> this.onChangeTab(true)}>Favourites</div>
-                    {/* vvvi o how to pass the value inthe required functuon  */}
+  // we can use it only inside the render methods
+  return(
+    <StoreContext.Consumer>
+      {
+        (store)=>{// store should be same as it comming from index.js file i.evalue={store} 
 
-                  </div>
-                  <div className="list">
-                    {displayMovies.map((movie,index)=>( // awways remenber here we need to have () bracket as we are passing arrow function not {} other wise you will get error
-                     <MovieCard  movie = {movie}
-                      key={`movies-${index}`}
-                      dispatch = {this.props.store.dispatch}
-                      isFavourite = {this.isMovieFavoirite(movie)}  
-                      />
-                    ))}
-                  </div>
-                  {displayMovies.length===0?<div className='no-movies'>No movie to dispaly</div>:null}
+          return (
+            <div className="App">
+                <Navbar  dispatch = {store.dispatch} search={search} />
+                <div className="main">
+                    <div className="main">
+                          <div className="tabs">
+                            {/* vvvi o how to pass the value inthe required functuon  */}
+                              <div className={`tab ${setShowFavourites?'':'active-tabs'}`} onClick={()=>this.onChangeTab(false)}>Movies</div>
+                              <div className={`tab ${setShowFavourites?'active-tabs':''}`} onClick={()=> this.onChangeTab(true)}>Favourites</div>
+                            {/* vvvi o how to pass the value inthe required functuon  */}
+        
+                          </div>
+                          <div className="list">
+                            {displayMovies.map((movie,index)=>( // awways remenber here we need to have () bracket as we are passing arrow function not {} other wise you will get error
+                             <MovieCard  movie = {movie}
+                              key={`movies-${index}`}
+                              dispatch = {store.dispatch}
+                              isFavourite = {this.isMovieFavoirite(movie)}  
+                              />
+                            ))}
+                          </div>
+                          {displayMovies.length===0?<div className='no-movies'>No movie to dispaly</div>:null}
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-  );
+          );
+        }
+      }
+    </StoreContext.Consumer>
+  )
+
+  
+  
   }
 }
 
