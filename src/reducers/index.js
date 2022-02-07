@@ -2,7 +2,7 @@
 // and here our function should be pure function
 // and here our for same input we should have smar output
 // here state is current state and if it is undefined then we need to make it as empty array as our global state will be a list of movies
-import {ADD_MOVIES,ADD_TO_FAVOURITE,REMOVE_FROM_FAVOURITE,SET_SHOW_FAVOURITE,ADD_SEARCH_RESULT} from '../actions';
+import {ADD_MOVIES,ADD_TO_FAVOURITE,REMOVE_FROM_FAVOURITE,SET_SHOW_FAVOURITE,ADD_SEARCH_RESULT,ADD_MOVIE_TO_LIST} from '../actions';
 import { combineReducers } from 'redux';
 const initialStateMovieState = {
     list:[],
@@ -48,13 +48,19 @@ export  function movies(state=initialStateMovieState,action){
                 ...state,
                 setShowFavourites:action.val
             }
+        case ADD_MOVIE_TO_LIST:
+            return{
+                ...state,
+                list:[action.movie,...state.list]
+            }
         default:
             return state
         }
 }
 
 const initialSearchState = {
-    result:{}
+    result:{},
+    showSearchResult:false
 };
 // creatng search reducer
 export function search(state =initialSearchState,action){
@@ -64,7 +70,8 @@ export function search(state =initialSearchState,action){
         case ADD_SEARCH_RESULT:
             return{
                ...state,
-               result:action.movie
+               result:action.movie,
+               showSearchResult:true
             }
         default:
             return state
