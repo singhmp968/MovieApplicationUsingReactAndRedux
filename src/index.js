@@ -53,14 +53,27 @@ console.log('StoreContext',StoreContext);
 //TODO:NEED TA HELP
 class Provider extends React.Component{
   render(){
-    const {store}  =this.props
-    return <StoreContext.Provider value={store}>
+    const {store} =this.props;
+    console.log('dasdasdas',this.props)
+    return (
+    <StoreContext.Provider value={store}>
       {/* this will acctually is refering to what ever we are passing in between the <Provider store={store}> so for now its <App /> , it can be <h1> or anyy componenet */}
-      {this.props.children} 
+      {this.props.children}
     </StoreContext.Provider>
-    
+    );
   }
 }
+
+// class Provider extends React.Component {
+//   render() {
+//     const { store } = this.props;
+//     return (
+//       <StoreContext.Provider value={store}>
+//         {this.props.children}
+//       </StoreContext.Provider>
+//     );
+//   }
+// }
 
 
 // console.log('BEFORE Store STATE',store.getState())
@@ -76,9 +89,9 @@ class Provider extends React.Component{
 ReactDOM.render(
   <React.StrictMode>
   {/* here we are wrpping our app componenet to storeXontext so that we can  the store object or the object that we wish to pass will be available to all app as well as it child components and we can use it by using consumer and we can use it at any level like 10 11 level*/}
-  <Provider store={store}>
-    <App />
-  </Provider>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

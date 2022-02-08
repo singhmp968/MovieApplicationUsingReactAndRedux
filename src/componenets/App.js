@@ -7,9 +7,12 @@ import {StoreContext} from '../index'
 class App extends React.Component {
   // here we are calling the calling/****vvvvvv Important in the ***&&&%%%###$$$onChangeTab***&&&%%%###$$$ and then we are passing the vallue */
   componentDidMount() {
-    
+   this.props.store.subscribe(()=>this.forceUpdate());
+   this.props.store.dispatch(addMovies(data))
+   
+    /*
     // WHEN WE DISPATCH ACTION IMMEDITELY after this call back is called
-    const {store} = this.props;
+    const {store} = this.props.store;
     store.subscribe(()=>{
       console.log('UPDATING');
       // we dont we have use this as we have forceupdate as it is recommended
@@ -31,7 +34,7 @@ class App extends React.Component {
     //1.store.dispatch({})
     //2.THEN SUBSCRPTION IS CALLED  store.subscribe(()=>{})
     //3.console.log('STATE',this.props.store.getState())
-    
+    */
   
   }
   // on changeTab
@@ -61,14 +64,9 @@ class App extends React.Component {
   const {list,favourites,setShowFavourites} = movies
   const displayMovies = setShowFavourites?favourites:list
   // we can use it only inside the render methods
-  return(
-    <StoreContext.Consumer>
-      {
-        (store)=>{// store should be same as it comming from index.js file i.evalue={store} 
-
-          return (
+            return (
             <div className="App">
-                <Navbar  dispatch = {store.dispatch} search={search} />
+                <Navbar search={search} />
                 <div className="main">
                     <div className="main">
                           <div className="tabs">
@@ -82,7 +80,7 @@ class App extends React.Component {
                             {displayMovies.map((movie,index)=>( // awways remenber here we need to have () bracket as we are passing arrow function not {} other wise you will get error
                              <MovieCard  movie = {movie}
                               key={`movies-${index}`}
-                              dispatch = {store.dispatch}
+                              dispatch = {this.props.store.dispatch}
                               isFavourite = {this.isMovieFavoirite(movie)}  
                               />
                             ))}
@@ -91,15 +89,19 @@ class App extends React.Component {
                     </div>
                 </div>
             </div>
-          );
-        }
-      }
-    </StoreContext.Consumer>
-  )
-
-  
-  
+          ); 
   }
 }
 
-export default App;
+class AppWrapper extends React.Component{
+  render() {
+    return (
+      <StoreContext.Consumer>
+        {(store)=><App store={store} />}
+      </StoreContext.Consumer>
+    );
+  }
+}
+
+// export default App;
+export default AppWrapper;
