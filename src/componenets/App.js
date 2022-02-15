@@ -4,6 +4,7 @@ import MovieCard from './MovieCard';
 import React from 'react';
 import {addMovies,setShowFavourite} from '../actions'
 import {StoreContext} from '../index'
+import { search } from '../reducers';
 class App extends React.Component {
   // here we are calling the calling/****vvvvvv Important in the ***&&&%%%###$$$onChangeTab***&&&%%%###$$$ and then we are passing the vallue */
   componentDidMount() {
@@ -92,7 +93,7 @@ class App extends React.Component {
           ); 
   }
 }
-
+/*
 class AppWrapper extends React.Component{
   render() {
     return (
@@ -101,7 +102,17 @@ class AppWrapper extends React.Component{
       </StoreContext.Consumer>
     );
   }
+}*/
+function callback(state){
+// this callback will tell what data we want from store
+return{
+  movies:state.movies, // state is our root state
+  search:state.search
 }
-
+};
+// App is the name on App componenet
+// here we are telling that we need  the state property like movies:state.movies property inside our App componenet
+const connectedAppComponenet = connect(callback)(App) // here we need to tell what data we need from store and which component we want to connect this component to the store
+export default connectedAppComponenet;
 // export default App;
-export default AppWrapper;
+//export default AppWrapper;
