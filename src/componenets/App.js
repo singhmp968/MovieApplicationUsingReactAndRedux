@@ -3,13 +3,13 @@ import Navbar from './Navbar';
 import MovieCard from './MovieCard';
 import React from 'react';
 import {addMovies,setShowFavourite} from '../actions'
-import {StoreContext} from '../index'
+import {StoreContext,connect} from '../index'
 import { search } from '../reducers';
 class App extends React.Component {
   // here we are calling the calling/****vvvvvv Important in the ***&&&%%%###$$$onChangeTab***&&&%%%###$$$ and then we are passing the vallue */
   componentDidMount() {
-   this.props.store.subscribe(()=>this.forceUpdate());
-   this.props.store.dispatch(addMovies(data))
+  // this.props.store.subscribe(()=>this.forceUpdate());
+   this.props.dispatch(addMovies(data))
    
     /*
     // WHEN WE DISPATCH ACTION IMMEDITELY after this call back is called
@@ -40,10 +40,10 @@ class App extends React.Component {
   }
   // on changeTab
   onChangeTab=(val)=>{
-    this.props.store.dispatch(setShowFavourite(val))
+    this.props.dispatch(setShowFavourite(val))
   }
   isMovieFavoirite =(movie)=>{
-    const {movies} = this.props.store.getState();
+    const {movies} = this.props;
     const {favourites} = movies;
     const index = favourites.indexOf(movie)
     if(index!==-1){
@@ -59,9 +59,9 @@ class App extends React.Component {
     //1.RENDER WILL EXECUTE as soon as the componenet 
 
   // 0const movies = this.props.store.getState();
-  const {movies,search} = this.props.store.getState(); // {movies:{},search:{}}
+  const {movies,search} = this.props; // {movies:{},search:{}}
   console.log('Moviess==>',movies)
-  console.log('daya\ is',this.props.store.getState());
+  console.log('daya\ is',this.props);
   const {list,favourites,setShowFavourites} = movies
   const displayMovies = setShowFavourites?favourites:list
   // we can use it only inside the render methods
@@ -78,10 +78,11 @@ class App extends React.Component {
         
                           </div>
                           <div className="list">
-                            {displayMovies.map((movie,index)=>( // awways remenber here we need to have () bracket as we are passing arrow function not {} other wise you will get error
-                             <MovieCard  movie = {movie}
-                              key={`movies-${index}`}
-                              dispatch = {this.props.store.dispatch}
+                            {displayMovies.map((movie)=>( // awways remenber here we need to have () bracket as we are passing arrow function not {} other wise you will get error
+                             <MovieCard  
+                              movie = {movie}
+                              key={movie.imdbID}
+                              dispatch = {this.props.dispatch}
                               isFavourite = {this.isMovieFavoirite(movie)}  
                               />
                             ))}
@@ -103,7 +104,9 @@ class AppWrapper extends React.Component{
     );
   }
 }*/
-function callback(state){
+//function callback(state){
+  function mapStateToProps(state){
+
 // this callback will tell what data we want from store
 return{
   movies:state.movies, // state is our root state
@@ -112,7 +115,7 @@ return{
 };
 // App is the name on App componenet
 // here we are telling that we need  the state property like movies:state.movies property inside our App componenet
-const connectedAppComponenet = connect(callback)(App) // here we need to tell what data we need from store and which component we want to connect this component to the store
+const connectedAppComponenet = connect(mapStateToProps)(App) // here we need to tell what data we need from store and which component we want to connect this component to the store
 export default connectedAppComponenet;
 // export default App;
 //export default AppWrapper;

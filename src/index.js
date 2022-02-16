@@ -84,6 +84,85 @@ class Provider extends React.Component{
 // console.log('AFTER Store STATE',store.getState())
 {/* <App store={store} /> passing store in the app */}
 
+/*TODO: There is some issue need to check clearly!!!!!!
+// creating connect function and we will be exporting it
+//const connectedAppComponenet = connect(callback)(App)
+export function connect(callback){ // herewe will be getting the callback value
+  return function(Component) {// this will pass componenet like App,Navbar
+    // this will return new componenet i.e connectedAppComponenet
+    return class ConnectedComponenet extends React.Component{
+      // this will render the passing component like App or NAvbar
+      constructor(props){
+        super(props);
+        // here we are calling this to prevent memory leakage
+        this.unsubscribe = this.props.store.subscribe(()=>this.forceUpdate());
+      }
+      componentDidMount() {
+        this.unsubscribe();
+      }
+      
+      render(){
+        const store = this.props;
+        const state = store.getState();
+        const dataToBePassedAsProps = callback(state); // this will return key value pair
+        return <Component   {...dataToBePassedAsProps} dispatch= {store.dispatch}/> // {...dataToBePassedAsProps} will do some this like movies = {movies}
+          }
+      }
+    class ConnectedComponenetWrapper extends React.Component{
+      render() {
+        return (
+        <StoreContext.Consumer>
+          {(store) => {<ConnectedComponenet  store= {store}/>}}
+        </StoreContext.Consumer>
+        );
+      }
+    }
+    return ConnectedComponenetWrapper;
+
+  };
+}
+*/
+
+// const connectedComponent = connect(callback)(App);
+export function connect(callback) {
+  return function (Component) {
+    class ConnectedComponent extends React.Component {
+      constructor(props) {
+        super(props);
+        this.unsubscribe = this.props.store.subscribe(() => {
+          this.forceUpdate();
+        });
+      }
+
+      componentWillUnmount() {
+        this.unsubscribe();
+      }
+      render() {
+        const { store } = this.props;
+        const state = store.getState();
+        const dataToBeSentAsProps = callback(state);
+
+        return <Component dispatch={store.dispatch} {...dataToBeSentAsProps} />;
+      }
+    }
+
+    class ConnectedComponentWrapper extends React.Component {
+      render() {
+        return (
+          <StoreContext.Consumer>
+            {(store) => {
+              return <ConnectedComponent store={store} />;
+            }}
+          </StoreContext.Consumer>
+        );
+      }
+    }
+    return ConnectedComponentWrapper;
+  };
+}
+
+
+
 
 // 2nd way using class componenet
 ReactDOM.render(
