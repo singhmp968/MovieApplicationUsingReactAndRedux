@@ -1,9 +1,10 @@
-  import {data} from './data';
+import { connect } from 'react-redux';
+import {data} from './data';
 import Navbar from './Navbar';
 import MovieCard from './MovieCard';
 import React from 'react';
 import {addMovies,setShowFavourite} from '../actions'
-import {StoreContext,connect} from '../index'
+// import {StoreContext,connect} from '../index'
 import { search } from '../reducers';
 class App extends React.Component {
   // here we are calling the calling/****vvvvvv Important in the ***&&&%%%###$$$onChangeTab***&&&%%%###$$$ and then we are passing the vallue */

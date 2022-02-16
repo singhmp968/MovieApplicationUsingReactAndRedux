@@ -1,7 +1,9 @@
-import React, { createContext } from 'react';
+// import React, { createContext } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore,applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 import './index.css';
 import App from './componenets/App';
 // import movies from './reducers';
@@ -46,23 +48,24 @@ const logger=({dispatch,getState})=>(next)=>(action)=>{
 const store=createStore(rootReducer,applyMiddleware(logger,thunk)); // this expect and argument i.e rootReducer
 console.log('Store is',store)
 // creating reactContext to pass the store from index.js to other componeent
-export const StoreContext = createContext();
-console.log('StoreContext',StoreContext);
+// export const StoreContext = createContext();
+// console.log('StoreContext',StoreContext);
 
 // we can also create and wrpa it into class
 //TODO:NEED TA HELP
-class Provider extends React.Component{
-  render(){
-    const {store} =this.props;
-    console.log('dasdasdas',this.props)
-    return (
-    <StoreContext.Provider value={store}>
-      {/* this will acctually is refering to what ever we are passing in between the <Provider store={store}> so for now its <App /> , it can be <h1> or anyy componenet */}
-      {this.props.children}
-    </StoreContext.Provider>
-    );
-  }
-}
+
+// class Provider extends React.Component{
+//   render(){
+//     const {store} =this.props;
+//     console.log('dasdasdas',this.props)
+//     return (
+//     <StoreContext.Provider value={store}>
+//       {/* this will acctually is refering to what ever we are passing in between the <Provider store={store}> so for now its <App /> , it can be <h1> or anyy componenet */}
+//       {this.props.children}
+//     </StoreContext.Provider>
+//     );
+//   }
+//}
 
 // class Provider extends React.Component {
 //   render() {
@@ -122,7 +125,7 @@ export function connect(callback){ // herewe will be getting the callback value
   };
 }
 */
-
+/*
 // const connectedComponent = connect(callback)(App);
 export function connect(callback) {
   return function (Component) {
@@ -160,7 +163,7 @@ export function connect(callback) {
     return ConnectedComponentWrapper;
   };
 }
-
+*/
 
 
 
