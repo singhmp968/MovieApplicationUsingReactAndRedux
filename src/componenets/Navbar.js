@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StoreContext } from '..';
+import {StoreContext,connect} from '../index'
 import { handleMovieSearch,addMovieTOList } from '../actions';
 class Navbar extends Component {
 
@@ -50,7 +50,7 @@ return (
     </div>
 );
 }
-}
+}/*
 class NavbarWrapper extends React.Component{
     render(){
         return(
@@ -60,5 +60,14 @@ class NavbarWrapper extends React.Component{
         )
     }
 }
-
 export default NavbarWrapper;
+*/
+function mapStateToProps(state){
+    return{
+        movies:state.movies, // state is our root state
+        search:state.search
+    }
+     
+}
+const connectedAppComponenet = connect(mapStateToProps)(Navbar) // here we need to tell what data we need from store and which component we want to connect this component to the store
+export default connectedAppComponenet;
